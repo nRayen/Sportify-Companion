@@ -1,41 +1,16 @@
 import React, { useState } from "react";
-import { Button, Form, Heading, Input, Stack, Text, View, YStack } from "tamagui";
+import { Button, Form, Heading, Input, Text, View, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
 import { Redirect, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { SafeArea } from "@/components/SafeArea";
 
-const loginPage = () => {
+const RegisterPage = () => {
     const { login, isAuthenticated } = useAuth();
     const router = useRouter();
     const [userLogin, setUserLogin] = useState("");
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-
-    // const login = async () => {
-    //     console.log(userLogin, password)
-    //     const apiUrl = process.env.EXPO_PUBLIC_API_URL
-    //     try {
-    //         const response = await fetch(`${apiUrl}/auth/login`, {
-    //             method: 'POST',
-    //             headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ userLogin: userLogin, password: password })
-    //     })
-    //     console.log(response)
-    //     const data = await response.json()
-    //     console.log(data)
-    //     if (response.ok) {
-    //         console.log(data)
-    //         } else {
-    //             console.log("failed")
-    //         }
-    //     } catch (error) {
-    //         console.error(error)
-    //     }
-    // }
 
     if (isAuthenticated()) {
         return <Redirect href="/(auth)/(tabs)/home" />
@@ -59,7 +34,7 @@ const loginPage = () => {
 
     return (
         <SafeArea>
-            <Heading color="red">Connexion</Heading>
+            <Heading color="red">Inscription</Heading>
             <Form
                 onSubmit={handleLogin}
                 flex={1}
@@ -83,13 +58,13 @@ const loginPage = () => {
                 {error && <Text color="red">{error}</Text>}
                 <Form.Trigger asChild>
                     <Button disabled={isLoading}>
-                        {isLoading ? "Connexion..." : "Connexion"}
+                        {isLoading ? "Inscription..." : "Inscription"}
                     </Button>
                 </Form.Trigger>
-                </YStack>
-            </Form>
+            </YStack>
+        </Form>
         </SafeArea>
     );
 };
 
-export default loginPage;
+export default RegisterPage;

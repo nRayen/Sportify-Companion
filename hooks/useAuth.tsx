@@ -4,33 +4,39 @@ import * as SecureStore from 'expo-secure-store';
 import { useRouter } from "expo-router";
 
 type AuthContextType = {
-    sessionToken: string | null;
     login: (username: string, password: string) => void;
     logout: () => void;
     getSessionToken: () => string | null;
     isAuthenticated: () => boolean;
+    isLoading: boolean;
 };
 
-const router = useRouter();
 
 export const AuthContext = createContext<AuthContextType>({
-    sessionToken: null,
     login: (username : string, password : string) => {},
     logout: () => {},
     getSessionToken: () => null,
-    isAuthenticated: () => false
+    isAuthenticated: () => false,
+    isLoading: true
 });
 
 export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     const [sessionToken, setSessionToken] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
+    const router = useRouter();
 
     // Récupérer le token de session au démarrage de l'application
     useEffect(() => {
         const getSessionToken = async () => {
-            const sessionToken = await SecureStore.getItemAsync('jwt');
-            if (sessionToken) {
-                setSessionToken(sessionToken);
-                router.replace('/(auth)/(tabs)/home');
+            try {
+                const token = await SecureStore.getItemAsync('jwt');
+                if (token) {
+                    setSessionToken(token);
+                }
+            } catch (error) {
+                console.error("Error retrieving auth token:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
         getSessionToken();
@@ -38,11 +44,15 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
 
     // Fonction pour se connecter
     const login = async (username : string, password : string) : Promise<void> => {
-        const sessionToken : string = await checkLogin(username, password);
-        if (sessionToken) {
-            await SecureStore.setItemAsync('jwt', sessionToken);
+        try {
+            const sessionToken : string = await checkLogin(username, password);
+            if (sessionToken) {
+                await SecureStore.setItemAsync('jwt', sessionToken);
             setSessionToken(sessionToken);
-            router.replace('/(auth)/(tabs)/home');
+                router.replace('/(auth)/(tabs)/home');
+            }
+        } catch (error) {
+            console.error("Error logging in:", error);
         }
     };
 
@@ -67,8 +77,14 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ sessionToken, login, logout, getSessionToken, isAuthenticated }}>
-            {children}
+        <AuthContext.Provider value={{  
+            login, 
+            logout, 
+            getSessionToken, 
+            isAuthenticated,
+            isLoading
+        }}>
+            {!isLoading && children}
         </AuthContext.Provider>
     );
 }

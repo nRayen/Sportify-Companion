@@ -14,6 +14,7 @@ import { useColorScheme } from "@/components/useColorScheme";
 import { TamaguiProvider } from "tamagui";
 import { config } from "@/tamagui.config";
 import { AuthProvider } from "@/hooks/useAuth";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 export {
     // Catch any errors thrown by the Layout component.
@@ -22,7 +23,7 @@ export {
 
 export const unstable_settings = {
     // Ensure that reloading on `/modal` keeps a back button present.
-    initialRouteName: "login",
+    initialRouteName: "index",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -60,18 +61,16 @@ function RootLayoutNav() {
             value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
             <TamaguiProvider config={config}>
-                <AuthProvider>
-                    {/* <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal' }} />
-          </Stack> */}
-                    <Stack screenOptions={{ headerShown: false }}>
-                        <Stack.Screen
-                            name="login"
-                            options={{ headerShown: false }}
-                        />
-                    </Stack>
-                </AuthProvider>
+                <SafeAreaProvider>
+                    <AuthProvider>
+                        <Stack screenOptions={{ headerShown: false }}>
+                            <Stack.Screen name="index" />
+                            <Stack.Screen name="login" />
+                            <Stack.Screen name="register" />
+                            <Stack.Screen name="(auth)" />
+                        </Stack>
+                    </AuthProvider>
+                </SafeAreaProvider>
             </TamaguiProvider>
         </ThemeProvider>
     );
