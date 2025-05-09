@@ -1,7 +1,8 @@
+import { SafeArea } from "@/components/SafeArea";
 import { useAuth } from "@/hooks/useAuth";
 import { Link, Redirect, useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, Heading, Text } from "tamagui";
+import { Button, Heading, Text, Theme } from "tamagui";
 
 export default function Index() {
     const { isAuthenticated } = useAuth();
@@ -14,15 +15,16 @@ export default function Index() {
 
     
     return (
-        <SafeAreaView>
-            <Heading color="red">Index</Heading>
+        <SafeArea>
+            <Heading color="$color">Index</Heading>
 
-            <Button onPress={() => router.push("/login")}>
-                Connexion
-            </Button>
-            <Button onPress={() => router.push("/register")}>
-                Inscription
-            </Button>
-        </SafeAreaView>
+                
+                <Button theme="accent" onPress={() => router.push("/login")}>
+                    Connexion
+                </Button>
+                <Button theme="accent" onPress={() => router.push("/register")}>
+                    Inscription
+                </Button>
+        </SafeArea>
     );
 }

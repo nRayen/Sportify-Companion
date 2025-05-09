@@ -61,7 +61,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     const logout = async () : Promise<void> => {
         await SecureStore.deleteItemAsync('jwt');
         setSessionToken(null);
-        router.replace('/login');
+        router.replace('/');
     };
 
 

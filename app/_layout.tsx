@@ -11,7 +11,7 @@ import { useEffect } from "react";
 import "react-native-reanimated";
 
 import { useColorScheme } from "@/components/useColorScheme";
-import { TamaguiProvider } from "tamagui";
+import { TamaguiProvider, Theme } from "tamagui";
 import { config } from "@/tamagui.config";
 import { AuthProvider } from "@/hooks/useAuth";
 import { SafeAreaProvider } from "react-native-safe-area-context";
@@ -63,12 +63,14 @@ function RootLayoutNav() {
             <TamaguiProvider config={config}>
                 <SafeAreaProvider>
                     <AuthProvider>
-                        <Stack screenOptions={{ headerShown: false }}>
-                            <Stack.Screen name="index" />
-                            <Stack.Screen name="login" />
-                            <Stack.Screen name="register" />
-                            <Stack.Screen name="(auth)" />
-                        </Stack>
+                        <Theme name={colorScheme === "dark" ? "dark" : "light"}>
+                            <Stack screenOptions={{ headerShown: false }}>
+                                <Stack.Screen name="index" />
+                                <Stack.Screen name="login" />
+                                <Stack.Screen name="register" />
+                                <Stack.Screen name="(auth)" />
+                            </Stack>
+                        </Theme>
                     </AuthProvider>
                 </SafeAreaProvider>
             </TamaguiProvider>
