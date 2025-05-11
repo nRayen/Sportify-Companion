@@ -30,7 +30,7 @@ export const InputWithIcon = ({ Icon, size = "$4", ...props }: InputWithIconProp
     const paddingLeft = iconSize + 20; // icon size + some spacing
 
     return (
-        <XStack items="center" position="relative">
+        <XStack items="center" position="relative" width={props.width || "100%"} flex={props.flex}>
             <Icon 
                 color={isFocused ? "$accent" : "$color"} 
                 strokeWidth={1} 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Button, Form, H1, Heading, Input, Spinner, Stack, Text, View, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
-import { Redirect, useRouter } from "expo-router";
+import { Link, Redirect, useRouter } from "expo-router";
 import { SafeArea } from "@/components/SafeArea";
 import { ArrowRight, ChevronRight, Lock, User } from "@tamagui/lucide-icons";
 import { InputWithIcon } from "@/components/ui/InputWithIcon";
@@ -92,12 +92,18 @@ const loginPage = () => {
                 {error && <Text color="red">{error}</Text>}
                 <Form.Trigger asChild>
                     <Button disabled={isLoading} theme="accent" size={"$5"}>
-                        {isLoading ? "Connexion..." : "Connexion"}
+                        {isLoading ? "Connexion" : "Connexion"}
                         <Button.Icon>
                             {isLoading ? <Spinner /> : <ChevronRight />}
                         </Button.Icon>
                     </Button>
                 </Form.Trigger>
+
+                <Link href="/register" asChild>
+                        <Text color="$color" text="center" mt={8}>
+                            Pas de compte ? <Text color="$accent" textDecorationLine="underline">S'inscrire</Text>
+                        </Text>
+                    </Link>
                 </YStack>
             </Form>
         </SafeArea>

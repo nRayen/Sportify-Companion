@@ -33,7 +33,7 @@ const PasswordInput = ({ showPassword, setShowPassword, size = "$4", ...props }:
     const paddingLeft = iconSize + 20; // icon size + some spacing
     
     return (
-        <XStack items="center" position="relative">
+        <XStack items="center" position="relative" width={props.width || "100%"} flex={props.flex}>
             <Lock 
                 color={isFocused ? '$accent' : '$color'} 
                 strokeWidth={1} 

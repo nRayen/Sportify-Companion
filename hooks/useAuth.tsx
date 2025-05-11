@@ -1,10 +1,11 @@
-import { checkLogin } from "@/libs/api/auth";
+import { checkLogin, registerUser } from "@/libs/api/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import * as SecureStore from 'expo-secure-store';
 import { useRouter } from "expo-router";
 
 type AuthContextType = {
-    login: (username: string, password: string) => void;
+    login: (username: string, password: string) => Promise<void>;
+    register: (firstName: string, lastName: string, username: string, email: string, password: string) => Promise<void>;
     logout: () => void;
     getSessionToken: () => string | null;
     isAuthenticated: () => boolean;
@@ -13,7 +14,8 @@ type AuthContextType = {
 
 
 export const AuthContext = createContext<AuthContextType>({
-    login: (username : string, password : string) => {},
+    login: async (username : string, password : string) => {},
+    register: async (firstname: string, lastname: string, pseudo: string, email: string, password: string) => {},
     logout: () => {},
     getSessionToken: () => null,
     isAuthenticated: () => false,
@@ -48,14 +50,31 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
             const sessionToken : string = await checkLogin(username, password);
             if (sessionToken) {
                 await SecureStore.setItemAsync('jwt', sessionToken);
-            setSessionToken(sessionToken);
+                setSessionToken(sessionToken);
                 router.replace('/(auth)/(tabs)/home');
             }
         } catch (error) {
             console.error("Error logging in:", error);
+            throw error;
         }
     };
 
+    // Fonction pour s'inscrire
+    const register = async (
+        firstname: string, 
+        lastname: string, 
+        pseudo: string, 
+        email: string, 
+        password: string
+    ) : Promise<void> => {
+        try {
+            await registerUser(firstname, lastname, pseudo, email, password);
+            // Successful registration, but user still needs to login
+        } catch (error) {
+            console.error("Error registering:", error);
+            throw error;
+        }
+    };
 
     // Fonction pour se déconnecter
     const logout = async () : Promise<void> => {
@@ -79,6 +98,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     return (
         <AuthContext.Provider value={{  
             login, 
+            register,
             logout, 
             getSessionToken, 
             isAuthenticated,
