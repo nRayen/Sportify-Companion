@@ -2,7 +2,16 @@ import { checkLogin, registerUser } from "@/libs/api/auth";
 import { createContext, useContext, useEffect, useState } from "react";
 import * as SecureStore from 'expo-secure-store';
 import { useRouter } from "expo-router";
-
+import { setAuthCookies } from "@/libs/authCookies";
+import { getUserAPI } from "@/libs/api/user";
+type user = {
+    firstname: string;
+    lastname: string;
+    email: string;
+    username: string;
+    birthday: string;
+    sex: string;
+}
 type AuthContextType = {
     login: (username: string, password: string) => Promise<void>;
     register: (firstName: string, lastName: string, username: string, email: string, password: string) => Promise<void>;
@@ -10,6 +19,7 @@ type AuthContextType = {
     getSessionToken: () => string | null;
     isAuthenticated: () => boolean;
     isLoading: boolean;
+    user: user | null;
 };
 
 
@@ -19,13 +29,15 @@ export const AuthContext = createContext<AuthContextType>({
     logout: () => {},
     getSessionToken: () => null,
     isAuthenticated: () => false,
-    isLoading: true
+    isLoading: true,
+    user: null
 });
 
 export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     const [sessionToken, setSessionToken] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(true);
     const router = useRouter();
+    const [user, setUser] = useState<user | null>(null);
 
     // Récupérer le token de session au démarrage de l'application
     useEffect(() => {
@@ -44,14 +56,29 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
         getSessionToken();
     }, []);
 
+    // useEffect(() => {
+    //     const getUserr = async () => {
+    //         const user = await getUserAPI();
+    //         setUser(user);
+    //     }
+    //     getUserr();
+    // }, []);
+
+
     // Fonction pour se connecter
     const login = async (username : string, password : string) : Promise<void> => {
         try {
             const sessionToken : string = await checkLogin(username, password);
             if (sessionToken) {
-                await SecureStore.setItemAsync('jwt', sessionToken);
+                await setAuthCookies(sessionToken);
                 setSessionToken(sessionToken);
                 router.replace('/(auth)/(tabs)/home');
+
+                // const user = await getUserAPI();
+                // if (user) {
+                //     console.log(user);
+                //     setUser(user);
+                // }
             }
         } catch (error) {
             console.error("Error logging in:", error);
@@ -98,6 +125,7 @@ export const AuthProvider = ({ children } : { children : React.ReactNode }) => {
     return (
         <AuthContext.Provider value={{  
             login, 
+            user,
             register,
             logout, 
             getSessionToken, 

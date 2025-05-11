@@ -47,6 +47,7 @@ const builtThemes = createThemes({
         ...lightShadows,
         shadowColor: lightShadows.shadow1,
         accent: accentColor.light,
+        secondaryText: 'hsl(0, 0.00%, 49.00%)',
       },
       dark: {
         ...Colors.greenDark,
@@ -55,6 +56,7 @@ const builtThemes = createThemes({
         ...darkShadows,
         shadowColor: darkShadows.shadow1,
         accent: accentColor.dark,
+        secondaryText: 'hsl(0, 0.00%, 49.00%)',
       },
     },
   },

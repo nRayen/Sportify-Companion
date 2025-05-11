@@ -1,35 +1,45 @@
 import { StyleSheet } from 'react-native';
 
 import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
-import { Button } from 'tamagui';
+import { Button, H1, H2, H4, H6, Text, View, XStack, YStack } from 'tamagui';
 import { useAuth } from '@/hooks/useAuth';
+import { getUserAPI, User } from '@/libs/api/user';
+import { useEffect, useState } from 'react';
+import { Link } from 'expo-router';
+import { ChevronRight } from '@tamagui/lucide-icons';
+import { LinkCard } from '@/components/home/LinkCard';
 
 
 export default function TabOneScreen() {
-  const { logout } = useAuth();
+  const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const user = await getUserAPI();
+      setUser(user);
+      setIsLoading(false);
+    }
+    getUser();
+  }, []);
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Tab One</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
+    <View p={12}>
+      <XStack>
+        <H2>Bienvenue <Text color="$accent">{ user?.firstname }</Text></H2>
+      </XStack>
+
+      <YStack gap={16} mt={16}>
+
+        {/* Planning */}
+        <LinkCard title="Planning" description="Gérez votre planning afin de préparer vos entrainements à l'avance" href="/(auth)/(tabs)/planning" />
+        
+        {/* Exercices */}
+        <LinkCard title="Exercices" description="Gérez votre bibliothèque d'exercices et découvrez-en de nouveaux" href="/(auth)/(tabs)/exercises" />
+
+        {/* Suivi */}
+        <LinkCard title="Suivi" description="Suivez votre progression et votre IMC" href="/(auth)/(tabs)/suivi" />
+      </YStack>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});
