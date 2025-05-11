@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { Button, Form, Heading, Input, Stack, Text, View, YStack } from "tamagui";
+import { Button, Form, H1, Heading, Input, Spinner, Stack, Text, View, YStack } from "tamagui";
 import { useAuth } from "@/hooks/useAuth";
 import { Redirect, useRouter } from "expo-router";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { SafeArea } from "@/components/SafeArea";
+import { ArrowRight, ChevronRight, Lock, User } from "@tamagui/lucide-icons";
+import { InputWithIcon } from "@/components/ui/InputWithIcon";
+import PasswordInput from "@/components/ui/PasswordInput";
 
 const loginPage = () => {
     const { login, isAuthenticated } = useAuth();
@@ -12,6 +14,7 @@ const loginPage = () => {
     const [password, setPassword] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     // const login = async () => {
     //     console.log(userLogin, password)
@@ -59,31 +62,40 @@ const loginPage = () => {
 
     return (
         <SafeArea>
-            <Heading color="red">Connexion</Heading>
+            <Heading text="center" color="$accent">Sportify</Heading>
+            <Heading text="center" size="$10" color="$color">Connexion</Heading>
             <Form
                 onSubmit={handleLogin}
                 flex={1}
-                p={14}
         >
             <YStack
-                // justify="center"
-                gap={4}
+                justify="center"
+                gap={8}
                 flex={1}
             >
-                <Input
+                <InputWithIcon
+                    size={"$5"}
+                    Icon={User}
                     placeholder="Pseudo"
                     value={userLogin}
                     onChangeText={setUserLogin}
                 />
-                <Input
+                <PasswordInput
+                    size={"$5"}
+                    showPassword={showPassword}
+                    setShowPassword={setShowPassword}
+                    secureTextEntry={true}
                     placeholder="Mot de passe"
                     value={password}
                     onChangeText={setPassword}
                 />
                 {error && <Text color="red">{error}</Text>}
                 <Form.Trigger asChild>
-                    <Button disabled={isLoading}>
+                    <Button disabled={isLoading} theme="accent" size={"$5"}>
                         {isLoading ? "Connexion..." : "Connexion"}
+                        <Button.Icon>
+                            {isLoading ? <Spinner /> : <ChevronRight />}
+                        </Button.Icon>
                     </Button>
                 </Form.Trigger>
                 </YStack>

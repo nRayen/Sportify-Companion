@@ -5,7 +5,9 @@ import { Pressable } from 'react-native';
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
 import { useClientOnlyValue } from '@/components/useClientOnlyValue';
-import { Home, Calendar, Book, LineChart, Settings, Dumbbell } from 'lucide-react-native';
+import { Home, Calendar, LineChart, Settings, Dumbbell } from '@tamagui/lucide-icons';
+import { Text } from 'tamagui';
+// import { Home, Calendar, Book, LineChart, Settings, Dumbbell } from 'lucide-react-native';
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 // function TabBarIcon(props: {
 //   name: React.ComponentProps<typeof FontAwesome>['name'];
@@ -19,8 +21,9 @@ export default function TabLayout() {
 
   return (
     <Tabs
+      
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        animation: 'fade',
         // Disable the static render of the header on web
         // to prevent a hydration error in React Navigation v6.
         headerShown: useClientOnlyValue(false, true),
@@ -29,7 +32,8 @@ export default function TabLayout() {
         name="home"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <Home color={color} />,
+          tabBarIcon: ({ focused }) => <Home strokeWidth={focused ? 1.5 : 1} color={focused ? "$accent" : "$color"} />,
+          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Home</Text>,
           headerRight: () => (
             <Link href="/modal" asChild>
               <Pressable>
@@ -50,28 +54,32 @@ export default function TabLayout() {
         name="planning"
         options={{
           title: 'Planning',
-          tabBarIcon: ({ color }) => <Calendar color={color} />,
+          tabBarIcon: ({ color, focused }) => <Calendar strokeWidth={focused ? 1.5 : 1} color={focused ? "$accent" : "$color"} />,
+          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Planning</Text>,
         }}
       />
       <Tabs.Screen
         name="exercises"
         options={{
           title: 'Exercises',
-          tabBarIcon: ({ color }) => <Dumbbell color={color} />,
+          tabBarIcon: ({ focused }) => <Dumbbell strokeWidth={focused ? 1.5 : 1} color={focused ? "$accent" : "$color"} />,
+          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Exercises</Text>,
         }}
       />
       <Tabs.Screen
         name="suivi"
         options={{
           title: 'Suivi',
-          tabBarIcon: ({ color }) => <LineChart color={color} />,
+          tabBarIcon: ({ color, focused }) => <LineChart strokeWidth={focused ? 1.5 : 1} color={focused ? "$accent" : "$color"} />,
+          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Suivi</Text>,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <Settings color={color} />,
+          tabBarIcon: ({ color, focused }) => <Settings strokeWidth={focused ? 1.5 : 1} color={focused ? "$accent" : "$color"} />,
+          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Settings</Text>,
         }}
       />
     </Tabs>

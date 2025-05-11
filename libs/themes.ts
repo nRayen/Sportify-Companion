@@ -22,6 +22,12 @@ const darkShadows = {
   shadow6: 'rgba(0,0,0,0.7)',
 }
 
+// Define accent colors
+const accentColor = {
+  light: 'hsla(139, 73%, 46%, 1)',
+  dark: 'hsla(139, 73%, 35%, 1)',
+}
+
 // we're adding some example sub-themes for you to show how they are done, "success" "warning", "error":
 
 const builtThemes = createThemes({
@@ -40,6 +46,7 @@ const builtThemes = createThemes({
         ...Colors.yellow,
         ...lightShadows,
         shadowColor: lightShadows.shadow1,
+        accent: accentColor.light,
       },
       dark: {
         ...Colors.greenDark,
@@ -47,6 +54,7 @@ const builtThemes = createThemes({
         ...Colors.yellowDark,
         ...darkShadows,
         shadowColor: darkShadows.shadow1,
+        accent: accentColor.dark,
       },
     },
   },
