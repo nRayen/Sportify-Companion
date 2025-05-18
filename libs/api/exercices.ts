@@ -51,3 +51,19 @@ export const addExerciseAPI = async (title: string, description: string, isPubli
         throw new Error(exercice.message);
     }
 }
+
+
+export const deleteExerciseAPI = async (id: number): Promise<void> => {
+    const token = await getAuthCookies();
+    const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/exercices/${id}`, {
+        method: "DELETE",
+        headers: { 
+            "Authorization": `Bearer ${token}`
+        }
+    });
+    if (response.ok) {
+        return;
+    } else {
+        throw new Error("Failed to delete exercise");
+    }
+}

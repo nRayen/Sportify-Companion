@@ -13,15 +13,10 @@ import {
 import { useState } from "react";
 import { Exercice } from "@/libs/api/exercices";
 import { ExerciseCard } from "./ExerciseCard";
+import { useExerciseStore } from "@/libs/stores/exercicesStore";
 
-type ExercicesLibraryProps = {
-    personalExercices: Exercice[];
-    publicExercices: Exercice[];
-}
-
-
-export const ExercicesLibrary = ({ personalExercices, publicExercices }: ExercicesLibraryProps) => {
-
+export const ExercicesLibrary = () => {
+    const { personalExercises, publicExercises } = useExerciseStore();
     const [selectedTab, setSelectedTab] = useState<"personal" | "public">("personal");
 
     return (
@@ -61,12 +56,8 @@ export const ExercicesLibrary = ({ personalExercices, publicExercices }: Exercic
                     </Tabs.Tab>
                 </Tabs.List>
 
-
-                {/* <Separator /> */}
-
-
                 <Tabs.Content value="personal" height={"100%"}>
-                    {personalExercices.length === 0 ? (
+                    {personalExercises.length === 0 ? (
                         <View justify={"center"} items={"center"} height={"100%"}>
                             <Text>Aucun exercice trouvé</Text>
                         </View>
@@ -76,7 +67,7 @@ export const ExercicesLibrary = ({ personalExercices, publicExercices }: Exercic
                         showsVerticalScrollIndicator={false}
                     >
                         <YStack gap={"$4"} p={"$2"} pb={20}>
-                            {personalExercices.map((exercice) => (
+                            {personalExercises.map((exercice) => (
                                 <ExerciseCard key={exercice.id} exercice={exercice} />
                             ))}
                             </YStack>
@@ -85,7 +76,7 @@ export const ExercicesLibrary = ({ personalExercices, publicExercices }: Exercic
                 </Tabs.Content>
 
                 <Tabs.Content value="public" height={"100%"}>
-                    {publicExercices.length === 0 ? (
+                    {publicExercises.length === 0 ? (
                         <View justify={"center"} items={"center"} height={"100%"}>
                             <Text>Aucun exercice trouvé</Text>
                         </View>
@@ -95,7 +86,7 @@ export const ExercicesLibrary = ({ personalExercices, publicExercices }: Exercic
                         showsVerticalScrollIndicator={false}
                     >
                         <YStack gap={"$4"} p={"$2"} pb={20}>
-                            {publicExercices.map((exercice) => (
+                            {publicExercises.map((exercice) => (
                                 <ExerciseCard key={exercice.id} exercice={exercice} />
                             ))}
                         </YStack>

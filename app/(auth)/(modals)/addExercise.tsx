@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { View, Text, Button, YStack, Input, Switch, Form, Label, XStack, TextArea } from 'tamagui';
 import { SwitchWithLabel } from '@/components/ui/SwitchWithLabel';
 import { X, Plus } from '@tamagui/lucide-icons';
-import { addExerciseAPI } from '@/libs/api/exercices';
+import { useExerciseStore } from '@/libs/stores/exercicesStore';
 
 export default function MyModal() {
     const router = useRouter();
@@ -12,11 +12,12 @@ export default function MyModal() {
     const [description, setDescription] = useState<string>("");
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isPublic, setIsPublic] = useState<boolean>(false);
+    const { addExercise } = useExerciseStore();
 
     const handleAddExercise = async () => {
         setIsLoading(true);
         try {
-            const response = await addExerciseAPI(title, description, isPublic);
+            await addExercise(title, description, isPublic);
             setIsLoading(false);
             router.back();
         } catch (error) {
@@ -64,11 +65,11 @@ export default function MyModal() {
               <Button.Text>Annuler</Button.Text>
             </Button>
 
-            <Button theme="accent" onPress={handleAddExercise} flex={1}>
+            <Button theme="accent" onPress={handleAddExercise} flex={1} disabled={isLoading}>
               <Button.Icon>
                 <Plus />
               </Button.Icon>
-              <Button.Text>Ajouter</Button.Text>
+              <Button.Text>{isLoading ? "Ajout en cours..." : "Ajouter"}</Button.Text>
             </Button>
           </XStack>
         </Form>
