@@ -15,8 +15,13 @@ export default function ProtectedLayout() {
     if (!isAuthenticated() && !inAuthGroup) {
       // Redirect to the sign-in page if not authenticated
       router.replace('/login');
-    } else if (isAuthenticated() && inAuthGroup && segments[1] !== '(tabs)') {
-      // Only redirect to home if trying to access non-tab auth pages
+    } else if (
+      isAuthenticated() && 
+      inAuthGroup && 
+      segments[1] !== '(tabs)' && 
+      segments[1] !== '(modals)'
+    ) {
+      // Only redirect to home if trying to access non-tab, non-modal auth pages
       router.replace('/(auth)/(tabs)/home');
     }
   }, [segments]);
@@ -31,6 +36,7 @@ export default function ProtectedLayout() {
     screenOptions={{
         headerShown: false, // 👈 Disable header here
       }}
-    />
+    >
+    </Stack>
   );
 }

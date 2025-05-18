@@ -35,7 +35,7 @@ export default function TabOneScreen() {
         <LinkCard title="Planning" description="Gérez votre planning afin de préparer vos entrainements à l'avance" href="/(auth)/(tabs)/planning" />
         
         {/* Exercices */}
-        <LinkCard title="Exercices" description="Gérez votre bibliothèque d'exercices et découvrez-en de nouveaux" href="/(auth)/(tabs)/exercises" />
+        <LinkCard title="Exercices" description="Gérez votre bibliothèque d'exercices et découvrez-en de nouveaux" href="/(auth)/(tabs)/exercices" />
 
         {/* Suivi */}
         <LinkCard title="Suivi" description="Suivez votre progression et votre IMC" href="/(auth)/(tabs)/suivi" />

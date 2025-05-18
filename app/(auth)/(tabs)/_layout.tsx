@@ -59,11 +59,11 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="exercises"
+        name="exercices"
         options={{
-          title: 'Exercises',
+          title: 'Exercices',
           tabBarIcon: ({ focused }) => <Dumbbell strokeWidth={focused ? 1.5 : 1} color={focused ? "$accent" : "$color"} />,
-          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Exercises</Text>,
+          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Exercices</Text>,
         }}
       />
       <Tabs.Screen
