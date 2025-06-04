@@ -1,11 +1,13 @@
 import { getAuthCookies } from "../authCookies";
 
-export interface Exercice {
+export type Exercice = {
     id: number;
     title: string;
     description: string;
     public: boolean;
 }
+
+export type ExerciceInput = Omit<Exercice, 'id'>;
 
 export const getPersonalExercicesAPI = async (): Promise<Exercice[]> => {
     const token = await getAuthCookies();
@@ -31,24 +33,20 @@ export const getPublicExercicesAPI = async (): Promise<Exercice[]> => {
     return exercices;
 }
 
-export const addExerciseAPI = async (title: string, description: string, isPublic: boolean): Promise<Exercice> => {
+export const addExerciseAPI = async (exercice: ExerciceInput): Promise<Exercice> => {
     const token = await getAuthCookies();
     const response = await fetch(`${process.env.EXPO_PUBLIC_API_URL}/exercices`, {
         method: "POST",
         headers: {
             "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify({
-            title,
-            description,
-            public: isPublic
-        })
+        body: JSON.stringify(exercice)
     });
-    const exercice = await response.json();
+    const newExercice = await response.json();
     if (response.ok) {
-        return exercice;
+        return newExercice;
     } else {
-        throw new Error(exercice.message);
+        throw new Error(newExercice.message);
     }
 }
 

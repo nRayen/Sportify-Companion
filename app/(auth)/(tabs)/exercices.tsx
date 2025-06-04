@@ -11,15 +11,20 @@ export default function ExercisesScreen() {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const loadExercises = async () => {
-            setIsLoading(true);
-            await Promise.all([
+        try {
+            const loadExercises = async () => {
+                setIsLoading(true);
+                await Promise.all([
                 fetchPersonalExercises(),
                 fetchPublicExercises()
             ]);
             setIsLoading(false);
         };
         loadExercises();
+        } catch (error) {
+            console.error(error);
+            setIsLoading(false);
+        }
     }, []);
 
     return (

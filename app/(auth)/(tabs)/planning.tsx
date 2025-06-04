@@ -1,31 +1,45 @@
-import { StyleSheet } from 'react-native';
-
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Text, View } from '@/components/Themed';
+import { useEffect, useState } from 'react';
+import { View } from 'tamagui';
+import { useSeancesStore } from '@/libs/stores/seancesStore';
+import { useExerciseStore } from '@/libs/stores/exercicesStore';
+import { Seances } from '@/libs/api/seances';
+import PlanningCalendar from '@/components/planning/PlanningCalendar';
+import PlanningSeancesList from '@/components/planning/PlanningSeancesList';
 
 export default function PlanningScreen() {
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [isLoading, setIsLoading] = useState(false);
+  const { fetchSeances } = useSeancesStore();
+
+  useEffect(() => {
+    try {
+        const loadSeances = async () => {
+            setIsLoading(true);
+            await fetchSeances();
+        setIsLoading(false);
+    };
+    loadSeances();
+    } catch (error) {
+        console.error(error);
+        setIsLoading(false);
+    }
+}, []);
+
+  const todayString = new Date().toISOString().split('T')[0];
+  
+  const handleDateChange = (date: string) => {
+    setSelectedDate(date);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Planning</Text>
-      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-      <EditScreenInfo path="app/(tabs)/planning.tsx" />
+    <View p={12} flex={1}>
+      <PlanningCalendar
+        selectedDate={selectedDate}
+        onDateChange={handleDateChange}
+      />
+
+      <PlanningSeancesList selectedDate={selectedDate} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  separator: {
-    marginVertical: 30,
-    height: 1,
-    width: '80%',
-  },
-});

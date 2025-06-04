@@ -17,7 +17,7 @@ export default function MyModal() {
     const handleAddExercise = async () => {
         setIsLoading(true);
         try {
-            await addExercise(title, description, isPublic);
+            await addExercise({title, description, public: isPublic});
             setIsLoading(false);
             router.back();
         } catch (error) {

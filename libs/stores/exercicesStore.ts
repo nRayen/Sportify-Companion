@@ -1,12 +1,12 @@
 import { create } from 'zustand';
-import { getPersonalExercicesAPI, addExerciseAPI, Exercice, getPublicExercicesAPI, deleteExerciseAPI } from '../api/exercices';
+import { getPersonalExercicesAPI, addExerciseAPI, Exercice, getPublicExercicesAPI, deleteExerciseAPI, ExerciceInput } from '../api/exercices';
 
 type ExerciseStore = {
   personalExercises: Exercice[];
   publicExercises: Exercice[];
   fetchPersonalExercises: () => Promise<void>;
   fetchPublicExercises: () => Promise<void>;
-  addExercise: (title: string, description: string, isPublic: boolean) => Promise<void>;
+  addExercise: (exercice: ExerciceInput) => Promise<void>;
   deleteExercise: (id: number) => Promise<void>;
 };
 
@@ -24,8 +24,8 @@ export const useExerciseStore = create<ExerciseStore>((set) => ({
     set({ publicExercises: data });
   },
 
-  addExercise: async (title, description, isPublic) => {
-    const newExercise = await addExerciseAPI(title, description, isPublic);
+  addExercise: async (exercice: ExerciceInput) => {
+    const newExercise = await addExerciseAPI(exercice);
     set((state) => ({
       personalExercises: [...state.personalExercises, newExercise],
     }));
