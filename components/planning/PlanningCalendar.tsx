@@ -1,5 +1,7 @@
-import { Calendar } from 'react-native-calendars';
+import { Calendar, LocaleConfig } from 'react-native-calendars';
 import { useSeancesStore } from '@/libs/stores/seancesStore';
+import { useColorScheme } from '@/components/useColorScheme';
+import { useTheme } from 'tamagui';
 
 interface MarkedDates {
   [date: string]: {
@@ -15,27 +17,88 @@ interface PlanningCalendarProps {
   onDateChange: (date: string) => void;
 }
 
+LocaleConfig.locales["fr-FR"] = {
+  monthNames: [
+    "Janvier",
+    "Février",
+    "Mars",
+    "Avril",
+    "Mai",
+    "Juin",
+    "Juillet",
+    "Août",
+    "Septembre",
+    "Octobre",
+    "Novembre",
+    "Décembre",
+  ],
+  monthNamesShort: [
+    "Jan",
+    "Fev",
+    "Mar",
+    "Avr",
+    "Mai",
+    "Jun",
+    "Jul",
+    "Août",
+    "Sept",
+    "Oct",
+    "Nov",
+    "Déc",
+  ],
+  dayNames: [
+    "Dimanche",
+    "Lundi",
+    "Mardi",
+    "Mercredi",
+    "Jeudi",
+    "Vendredi",
+    "Samedi",
+  ],
+  dayNamesShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+  today: "Aujourd'hui",
+}
+LocaleConfig.defaultLocale = "fr-FR"
+
 export default function PlanningCalendar({ selectedDate, onDateChange }: PlanningCalendarProps) {
 
-    const { seances } = useSeancesStore();
-    // console.log(seances);
-    // console.log(selectedDate);
-    
-    const todayString = new Date().toISOString().split('T')[0];
-    
+  const colorScheme = useColorScheme();
+  const theme = useTheme();
+  const { seances } = useSeancesStore();
+  const todayString = new Date().toISOString().split('T')[0];
+  
+  // Use Tamagui theme colors
+  const calendarTheme = {
+    backgroundColor: theme.background.val,
+    calendarBackground: "#00000000",
+    textSectionTitleColor: theme.color.val,
+    selectedDayBackgroundColor: theme.accent.val,
+    selectedDayTextColor: theme.background.val,
+    todayTextColor: theme.green9.val,
+    dayTextColor: theme.color.val,
+    textDisabledColor: theme.color7.val,
+    dotColor: theme.accent.val,
+    selectedDotColor: theme.background.val,
+    arrowColor: theme.accent.val,
+    monthTextColor: theme.color.val,
+    indicatorColor: theme.accent.val,
+    textDayFontWeight: '300' as const,
+    textMonthFontWeight: 'bold' as const,
+    textDayHeaderFontWeight: '500' as const,
+  };
+  
   // Create marked dates for the calendar
   const markedDates: MarkedDates = {};
   
   // Get unique dates from seances
-
   const seanceDates = [...new Set(seances.map(seance => seance.date))];
   
   seanceDates.forEach(date => {
     markedDates[date] = { 
       marked: true, 
-      dotColor: '#0000aa',
+      dotColor: theme.accent.val,
       selected: date === selectedDate,
-      selectedColor: '#0000aa',
+      selectedColor: theme.accent.val,
     };
   });
 
@@ -43,7 +106,7 @@ export default function PlanningCalendar({ selectedDate, onDateChange }: Plannin
   markedDates[todayString] = {
     ...markedDates[todayString],
     marked: true,
-    dotColor: 'green',
+    dotColor: theme.green9.val,
   };
 
   // If today is selected, mark it appropriately
@@ -51,7 +114,7 @@ export default function PlanningCalendar({ selectedDate, onDateChange }: Plannin
     markedDates[todayString] = {
       ...markedDates[todayString],
       selected: true,
-      selectedColor: '$accent',
+      selectedColor: theme.accent.val,
     };
   }
 
@@ -60,28 +123,18 @@ export default function PlanningCalendar({ selectedDate, onDateChange }: Plannin
       style={{
         borderRadius: 10,
         marginBottom: 16,
+        backgroundColor: theme.background.val,
+        shadowColor: theme.shadowColor.val,
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: colorScheme === 'dark' ? 0.3 : 0.1,
+        shadowRadius: 4,
+        elevation: 3,
       }}
-      theme={{
-        backgroundColor: '$background',
-        calendarBackground: '$background',
-        textSectionTitleColor: '$color',
-        selectedDayBackgroundColor: '$accent',
-        selectedDayTextColor: '#ffffff',
-        todayTextColor: '$accent',
-        dayTextColor: '$color',
-        textDisabledColor: '$gray10',
-        dotColor: '$accent',
-        selectedDotColor: '#ffffff',
-        arrowColor: '$accent',
-        monthTextColor: '$color',
-        indicatorColor: '$accent',
-        textDayFontWeight: '300',
-        textMonthFontWeight: 'bold',
-        textDayHeaderFontWeight: '500',
-      }}
+      theme={calendarTheme}
       onDayPress={(day) => onDateChange(day.dateString)}
       markedDates={markedDates}
       enableSwipeMonths={true}
+      
     />
   );
 }

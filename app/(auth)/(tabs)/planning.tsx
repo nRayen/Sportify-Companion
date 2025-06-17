@@ -24,8 +24,6 @@ export default function PlanningScreen() {
         setIsLoading(false);
     }
 }, []);
-
-  const todayString = new Date().toISOString().split('T')[0];
   
   const handleDateChange = (date: string) => {
     setSelectedDate(date);
