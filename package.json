@@ -37,6 +37,7 @@
     "react-native-svg": "^15.11.2",
     "react-native-web": "~0.20.0",
     "tamagui": "^1.126.9",
+    "victory-native": "^41.17.4",
     "zustand": "^5.0.4"
   },
   "devDependencies": {

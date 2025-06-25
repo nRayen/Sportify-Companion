@@ -12,6 +12,12 @@ export default function ModalsLayout() {
           title: "Ajouter un exercice",
         }} 
       />
+      <Stack.Screen 
+        name="addSuivi" 
+        options={{
+          title: "Ajouter une mesure",
+        }} 
+      />
     </Stack>
   );
 }

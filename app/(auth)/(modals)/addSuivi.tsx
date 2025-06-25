@@ -5,19 +5,19 @@ import { View, Text, Button, YStack, Input, Switch, Form, Label, XStack, TextAre
 import { SwitchWithLabel } from '@/components/ui/SwitchWithLabel';
 import { X, Plus } from '@tamagui/lucide-icons';
 import { useExerciseStore } from '@/libs/stores/exercicesStore';
+import { useSuiviStore } from '@/libs/stores/suiviStore';
 
-export default function AddExerciseModal() {
+export default function AddSuiviModal() {
     const router = useRouter();
-    const [title, setTitle] = useState<string>("");
-    const [description, setDescription] = useState<string>("");
+    const [weight, setWeight] = useState<number>(0);
+    const [height, setHeight] = useState<number>(0);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [isPublic, setIsPublic] = useState<boolean>(false);
-    const { addExercise } = useExerciseStore();
+    const { addSuivi } = useSuiviStore();
 
-    const handleAddExercise = async () => {
+    const handleAddSuivi = async () => {
         setIsLoading(true);
         try {
-            await addExercise({title, description, public: isPublic});
+            await addSuivi({taille: height, poids: weight});
             setIsLoading(false);
             router.back();
         } catch (error) {
@@ -28,33 +28,34 @@ export default function AddExerciseModal() {
 
   return (  
       <View p={12} height={"100%"}>
-        <Form onSubmit={handleAddExercise}>
+        <Form onSubmit={handleAddSuivi}>
           <YStack gap="$4">
             <YStack>
-              <Label htmlFor="title">Nom de l'exercice</Label>
+              <Label htmlFor="weight">Poids</Label>
               <Input
                 returnKeyType='done'
                 caretColor="$accent"
-                id="title"
-                placeholder="Nom de l'exercice"
-                value={title}
-                onChangeText={setTitle}
+                id="weight"
+                placeholder="Poids"
+                keyboardType="numeric"
+                value={weight.toString()}
+                onChangeText={(text) => setWeight(Number(text))}
               />
             </YStack>
 
             <YStack>
-              <Label htmlFor="description">Description de l'exercice</Label>
-              <TextArea
-                minH={100}
+              <Label htmlFor="height">Taille</Label>
+              <Input
                 caretColor="$accent"
-                id="description"
-                placeholder="Description de l'exercice"
-                value={description}
-                onChangeText={setDescription}
+                id="height"
+                placeholder="Taille"
+                keyboardType="numeric"
+                returnKeyType='done'
+                value={height.toString()}
+                onChangeText={(text) => setHeight(Number(text))}
               />
             </YStack>
 
-            <SwitchWithLabel label="Public" size="$4" defaultChecked={isPublic} onCheckedChange={() => setIsPublic(!isPublic)}/>
           </YStack>
 
           <XStack mt={12} gap="$4">
@@ -65,7 +66,7 @@ export default function AddExerciseModal() {
               <Button.Text>Annuler</Button.Text>
             </Button>
 
-            <Button theme="accent" onPress={handleAddExercise} flex={1} disabled={isLoading}>
+            <Button theme="accent" onPress={handleAddSuivi} flex={1} disabled={isLoading}>
               <Button.Icon>
                 <Plus />
               </Button.Icon>
