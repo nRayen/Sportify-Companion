@@ -31,23 +31,9 @@ export default function TabLayout() {
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Home',
+          title: 'Accueil',
           tabBarIcon: ({ focused }) => <Home strokeWidth={focused ? 1.5 : 1} color={focused ? "$accent" : "$color"} />,
-          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Home</Text>,
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable>
-                {({ pressed }) => (
-                  <FontAwesome
-                    name="info-circle"
-                    size={25}
-                    color={Colors[colorScheme ?? 'light'].text}
-                    style={{ marginRight: 15, opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
-          ),
+          tabBarLabel: ({ focused }) => <Text color={focused ? "$accent" : "$color"} fontSize={11} fontWeight={ focused ? "bold" : "normal"}>Accueil</Text>,
         }}
       />
       <Tabs.Screen

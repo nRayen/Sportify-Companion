@@ -1,7 +1,6 @@
-import { Card, XStack, Button, Text, YStack, View, Separator } from "tamagui";
-import { Trash, ChevronRight, Globe, Lock, FileText, Eye } from "@tamagui/lucide-icons";
+import { Card, XStack, Text, YStack, View } from "tamagui";
+import { Globe, Lock, FileText } from "@tamagui/lucide-icons";
 import { Exercice } from "@/libs/api/exercices";
-import { useExerciseStore } from "@/libs/stores/exercicesStore";
 
 interface ExerciseCardProps {
     exercice: Exercice;
@@ -9,11 +8,6 @@ interface ExerciseCardProps {
 }
 
 export function ExerciseCard({ exercice, selectedTab = "personal" }: ExerciseCardProps) {
-    const { deleteExercise } = useExerciseStore();
-
-    const handleDeleteExercise = async () => {
-        await deleteExercise(exercice.id);
-    }
 
     return (
         <Card
@@ -117,55 +111,6 @@ export function ExerciseCard({ exercice, selectedTab = "personal" }: ExerciseCar
                             </Text>
                         </YStack>
                     </Card>
-                )}
-
-                {/* Enhanced Separator */}
-                {selectedTab === "personal" && (
-                    <YStack gap={12}>
-                <Separator 
-                    borderColor="$borderColor"
-                    opacity={0.5}
-                />
-                <XStack justify="space-between" items="center">
-                    {/* Stats or additional info could go here */}
-                    <View flex={1} />
-                    
-                    {/* Action Buttons */}
-                    <XStack gap={12}>
-                        <Button
-                            size="$4"
-                            bg="#ffebee"
-                            borderColor="#f44336"
-                            borderWidth={1}
-                            rounded={12}
-                            onPress={handleDeleteExercise}
-                            pressStyle={{ 
-                                scale: 0.95,
-                                bg: "#ffcdd2" 
-                            }}
-                            hoverStyle={{ 
-                                bg: "#ffcdd2" 
-                            }}
-                            shadowColor="#f44336"
-                            shadowOffset={{ width: 0, height: 3 }}
-                            shadowOpacity={0.2}
-                            shadowRadius={8}
-                            elevation={3}
-                        >
-                            <Button.Icon>
-                                <Trash size={16} color="#d32f2f" />
-                            </Button.Icon>
-                            <Button.Text 
-                                fontSize="$3" 
-                                fontWeight="600" 
-                                color="#d32f2f"
-                            >
-                                Supprimer
-                            </Button.Text>
-                        </Button>
-                        </XStack>
-                    </XStack>
-                </YStack>
                 )}
             </YStack>
         </Card>

@@ -69,7 +69,7 @@ export const ExercicesLibrary = () => {
 
     return (
         <View flex={1} bg="$background">
-            {/* Enhanced Header */}
+            {/* Header */}
             <Card 
                 m={16} 
                 mb={20}
@@ -98,7 +98,7 @@ export const ExercicesLibrary = () => {
                             <Dumbbell size={24} color="$accent" />
                         </Card>
                         <H5 color="white" fontWeight="700" fontSize="$6">
-                            Bibliothèque d'Exercices
+                            Exercices
                         </H5>
                     </XStack>
                     <Text 
@@ -111,7 +111,7 @@ export const ExercicesLibrary = () => {
                 </YStack>
             </Card>
 
-            <XStack flex={1} px={16}>
+            <XStack flex={1}>
                 <Tabs
                     value={selectedTab}
                     onValueChange={(value) => setSelectedTab(value as "personal" | "public")}
