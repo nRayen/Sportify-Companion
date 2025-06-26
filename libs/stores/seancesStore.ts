@@ -4,7 +4,6 @@ import { addSeanceAPI, deleteSeanceAPI, getSeancesAPI, Seances } from "../api/se
 type SeancesStore = {
     seances: Seances[];
     fetchSeances: () => Promise<void>;
-    addSeance: (seance: Seances) => Promise<void>;
     deleteSeance: (id: number) => Promise<void>;
 }
 
@@ -14,11 +13,6 @@ export const useSeancesStore = create<SeancesStore>((set) => ({
     fetchSeances: async () => {
         const seances = await getSeancesAPI();
         set({ seances });
-    },
-
-    addSeance: async (seance: Seances) => {
-        await addSeanceAPI(seance);
-        set((state) => ({ seances: [...state.seances, seance] }));
     },
 
     deleteSeance: async (id: number) => {

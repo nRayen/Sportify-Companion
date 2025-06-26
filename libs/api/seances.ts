@@ -8,7 +8,7 @@ export type Seances = {
     date: string;
     duration: number;
     objective: string;
-    exerciceStats: ExerciceStats[];
+    ExerciceStats: ExerciceStats[];
 }
 
 export type ExerciceStats = {

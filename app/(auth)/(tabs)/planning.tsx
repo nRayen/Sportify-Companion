@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View } from 'tamagui';
+import { ScrollView, View } from 'tamagui';
 import { useSeancesStore } from '@/libs/stores/seancesStore';
 import { useExerciseStore } from '@/libs/stores/exercicesStore';
 import { Seances } from '@/libs/api/seances';
@@ -30,14 +30,14 @@ export default function PlanningScreen() {
   };
 
   return (
-    <View p={12} flex={1}>
+    <ScrollView p={12} flex={1} showsVerticalScrollIndicator={false}>
       <PlanningCalendar
         selectedDate={selectedDate}
         onDateChange={handleDateChange}
       />
 
       <PlanningSeancesList selectedDate={selectedDate} />
-    </View>
+    </ScrollView>
   );
 }
 

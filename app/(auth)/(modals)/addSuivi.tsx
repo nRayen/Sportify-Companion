@@ -1,10 +1,7 @@
-import { SafeArea } from '@/components/SafeArea';
-import { Stack, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useState } from 'react';
-import { View, Text, Button, YStack, Input, Switch, Form, Label, XStack, TextArea } from 'tamagui';
-import { SwitchWithLabel } from '@/components/ui/SwitchWithLabel';
+import { View, Button, YStack, Input, Form, Label, XStack } from 'tamagui';
 import { X, Plus } from '@tamagui/lucide-icons';
-import { useExerciseStore } from '@/libs/stores/exercicesStore';
 import { useSuiviStore } from '@/libs/stores/suiviStore';
 
 export default function AddSuiviModal() {
