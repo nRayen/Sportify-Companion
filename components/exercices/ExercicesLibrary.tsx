@@ -226,7 +226,7 @@ export const ExercicesLibrary = () => {
                             >
                                 <YStack gap={16} pb={20}>
                                     {publicExercises.map((exercice) => (
-                                        <ExerciseCard key={exercice.id} exercice={exercice} />
+                                        <ExerciseCard key={exercice.id} exercice={exercice} selectedTab={selectedTab} />
                                     ))}
                                 </YStack>
                             </ScrollView>

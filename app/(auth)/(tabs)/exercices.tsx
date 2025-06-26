@@ -29,7 +29,7 @@ export default function ExercisesScreen() {
 
     return (
         <ScrollView p={12} height={"100%"}>
-                    <Link href="/(auth)/(modals)/addExercise" asChild>
+                    {/* <Link href="/(auth)/(modals)/addExercise" asChild>
                         <Button 
                             size="$5"
                             bg="$accent"
@@ -55,7 +55,7 @@ export default function ExercisesScreen() {
                                 Ajouter un exercice
                             </Button.Text>
                         </Button>
-                    </Link>
+                    </Link> */}
 
             {isLoading ? (
                 <View justify={"center"} items={"center"} height={"100%"}>

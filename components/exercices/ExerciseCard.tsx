@@ -5,9 +5,10 @@ import { useExerciseStore } from "@/libs/stores/exercicesStore";
 
 interface ExerciseCardProps {
     exercice: Exercice;
+    selectedTab?: "personal" | "public";
 }
 
-export function ExerciseCard({ exercice }: ExerciseCardProps) {
+export function ExerciseCard({ exercice, selectedTab = "personal" }: ExerciseCardProps) {
     const { deleteExercise } = useExerciseStore();
 
     const handleDeleteExercise = async () => {
@@ -119,17 +120,17 @@ export function ExerciseCard({ exercice }: ExerciseCardProps) {
                 )}
 
                 {/* Enhanced Separator */}
+                {selectedTab === "personal" && (
+                    <YStack gap={12}>
                 <Separator 
                     borderColor="$borderColor"
                     opacity={0.5}
                 />
-
-                {/* Footer Section */}
                 <XStack justify="space-between" items="center">
                     {/* Stats or additional info could go here */}
                     <View flex={1} />
                     
-                    {/* Enhanced Action Buttons */}
+                    {/* Action Buttons */}
                     <XStack gap={12}>
                         <Button
                             size="$4"
@@ -162,8 +163,10 @@ export function ExerciseCard({ exercice }: ExerciseCardProps) {
                                 Supprimer
                             </Button.Text>
                         </Button>
+                        </XStack>
                     </XStack>
-                </XStack>
+                </YStack>
+                )}
             </YStack>
         </Card>
     );
